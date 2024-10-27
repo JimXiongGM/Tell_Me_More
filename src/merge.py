@@ -16,7 +16,8 @@ merged_metric = {}
 
 for model_name in model_name_list:
     metric_save_path = f"./data/user_interaction_records/metrics/metric_{label_setting}_{model_name}.json"
-    os.makedirs(metric_save_path, exist_ok=True)
+    # os.makedirs(metric_save_path, exist_ok=True)
+    os.makedirs(os.path.dirname(metric_save_path), exist_ok=True)
     with open(metric_save_path, 'r', encoding='utf-8') as f:
         metric = json.load(f)
     for k, v in metric.items():

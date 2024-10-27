@@ -4,3 +4,5 @@ outputs
 tensorboard_sft
 src/__pycache__
 models
+pwd.json
+data/

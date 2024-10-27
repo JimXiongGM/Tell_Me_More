@@ -31,4 +31,8 @@ OPTS+=" --start_from 0"
 
 CMD="torchrun ${DISTRIBUTED_ARGS} ./src/test_one_new.py ${OPTS}"
 
-${CMD}
+# echo ${CMD}
+# torchrun --nproc_per_node 1 --nnodes 1 --node_rank 0 --master_addr localhost --master_port 12346 ./src/test_one_new.py --data_dir ./data/IN3/test.jsonl --model_name mistral-interact --model_name_or_path ./models/MI-mc --output_dir ./outputs --start_from 0
+
+# ${CMD}
+

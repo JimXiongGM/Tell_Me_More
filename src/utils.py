@@ -1,24 +1,25 @@
-from openai import OpenAI
-import json5
+import json
 import time
+import openai
 
-client = OpenAI(
-    api_key="<api-key>",
-    base_url="<base-url>",
-)
+with open("pwd.json") as f:
+    info = json.load(f)
+
+client = openai.OpenAI(api_key=info["OPENAI_API_KEY"], base_url=info["OPENAI_BASE_URL"])
+
 
 def get_embedding(text:str, model="text-embedding-ada-002"):
    text = text.replace("\n", " ").strip()
    return client.embeddings.create(input = [text], model=model).data[0].embedding
 
-def gpt_chatcompletion(messages):
+def gpt_chatcompletion(messages,model="gpt-4-1106"):
     rounds = 0
     while True:
         rounds += 1
         try:
             print("Chat Completion ...")
             response = client.chat.completions.create(
-                model="gpt-4-1106",
+                model=model,
                 messages=messages,
                 temperature=0.7,
                 n=1,

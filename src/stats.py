@@ -1,10 +1,8 @@
 import os
-import copy
 import json
-from tqdm import tqdm
-from IPython import embed
+# from tqdm import tqdm
 from utils import gpt_chatcompletion
-
+from loguru import logger
 
 def form_messages(system_prompt: str, msg: str):
     messages = [
@@ -20,7 +18,9 @@ def tell_vague(data):
 
 label_setting = 'mix'
 # TODO: "gpt4 / Llama-2-7b-chat-hf / mistral-7b-instruct-v0.2-hf / mistral-interact"
-model_name = "mistral-interact" 
+# model_name = "mistral-interact" 
+model_name="gpt-4o"
+
 interaction_data_path = f'./data/user_interaction_records/user_interaction_record_{model_name}_split.jsonl'
 labeller_data_path = f"./data/data_labeling/test_data_report_{label_setting}.jsonl"
 metric_save_path = f"./data/user_interaction_records/metrics/metric_{label_setting}_{model_name}.json"
@@ -102,7 +102,7 @@ missing_details_recover_rate = {
     "total_recover_rate": {"rate": 0.0, "cnt": 0},
 }
 for i in range(TASK_NUM):
-    print(f"=========== Processing task {i} ===========")
+    logger.info(f"=========== Processing task {i} ===========")
     if tell_vague(interaction_dataset[i]) and labeller_dataset[i]['user_vague']:
         vague_task_cnt += 1
         
@@ -126,7 +126,7 @@ for i in range(TASK_NUM):
                     if resp in flag_dict:
                         flag_dict[resp]['hit'] = True
                     else:
-                        print(f"Error: {resp} not in human intention list:\n{list_str}")
+                        logger.info(f"Error: {resp} not in human intention list:\n{list_str}")
 
         task_i_results = {}
         for k, v in flag_dict.items():
@@ -142,8 +142,8 @@ for i in range(TASK_NUM):
         missing_details_recover_rate['total_recover_rate']['rate'] += sum([v['hit'] for v in flag_dict.values()]) / len(flag_dict)
         missing_details_recover_rate['total_recover_rate']['cnt'] += 1
         
-        print(f"task_i_results: {task_i_results}")
-        print(f"missing_details_recover_rate: {missing_details_recover_rate}")
+        logger.info(f"task_i_results: {task_i_results}")
+        logger.info(f"missing_details_recover_rate: {missing_details_recover_rate}")
         
 for importance in missing_details_recover_rate:
     missing_details_recover_rate[importance]['cnt'] = max(missing_details_recover_rate[importance]['cnt'], 1)

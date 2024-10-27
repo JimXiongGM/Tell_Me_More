@@ -43,8 +43,8 @@ You should follow the format, first provide your thought, then ask the user for 
 
 Remember you must strictly conform to one of the above example formats, first provide your thought, then ask the user for more information or provide a summary. The user will provide a task as the following."""
 
-model_name = 'gpt-4'
-data_dir = './vagueness_augmented_test.jsonl'
+model_name = 'gpt-4o'
+data_dir = 'data/IN3/test.jsonl'
 output_dir = './interaction_output'
 
 def get_multiple_lines_input(msg: str):
@@ -103,7 +103,7 @@ for i, data in enumerate(test_dataset[:]):
             while round < 3:
                 round += 1
                 try:
-                    pred = gpt_chatcompletion(messages)
+                    pred = gpt_chatcompletion(messages,model=model_name)
 
                     cprint.ok(f"Prediction:\n{pred}")
                     has_initial_thought = input("Is there an initial thought in prediction? (y or n) ").strip()

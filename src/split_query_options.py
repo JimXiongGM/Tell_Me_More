@@ -1,12 +1,12 @@
-import os
+# import os
 import copy
 import json
 from tqdm import tqdm
-from IPython import embed
+# from IPython import embed
 from utils import gpt_chatcompletion
 
 # TODO: "gpt4 / Llama-2-7b-chat-hf / mistral-7b-instruct-v0.2-hf / mistral-interact"
-model_name = "gpt4" 
+model_name = "gpt-4o" 
 interaction_data_path = f'./data/user_interaction_records/user_interaction_record_{model_name}.jsonl'
 interaction_dataset = []
 
